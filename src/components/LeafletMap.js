@@ -5,9 +5,6 @@ import L from "leaflet";
 import  MarkerClusterGroup  from "react-leaflet-markercluster";
 import localforage from 'localforage';
 import 'leaflet-offline';
-// import OfflineTileLayer from '/home/wtt181/map-app/src/components/offlineTitleLayer.js';
-
-
 
 const markerList = [
   {
@@ -39,24 +36,6 @@ const markerList = [
     name:"childrens Hospitals"
   }
 ];
-//  class OfflineTileLayer extends TileLayer {
-//   // constructor(props){
-//   //   super(props);
-//   // }
-//  createLeafletElement() {
-//    return new L.tileLayer.offline(
-//       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-//       localforage,
-//       {
-//         attribution:
-//           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-//         minZoom: 5,
-//         maxZoom: 20,
-//         crossOrigin: true,
-//       }
-//     );
-//   }
-// }
 
 class LeafletMap extends React.Component {
   constructor(props) {
@@ -77,19 +56,6 @@ class LeafletMap extends React.Component {
     maxZoom: 19,
     crossOrigin: true
 });
-    // const map = L.map('map');
-    // const offlineLayer = L.tileLayer.offline(
-    //   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    //   localforage,
-    //   {
-    //     attribution:
-    //       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    //     minZoom: 5,
-    //     maxZoom: 20,
-    //     crossOrigin: true,
-    //   },
-    // );
-    // offlineLayer.addTo(this.map); // tried to add to the reference, didn't work
     offlineLayer.addTo(map);
   }
   customIconCreateFunction(cluster) {
@@ -106,8 +72,6 @@ class LeafletMap extends React.Component {
         anchor="bottom-right"
         longitude={markerList[index].lng}
         latitude={markerList[index].lat}
-        // onMouseLeave={() => this.setState({ popupInfo: null })}
-        // closeOnClick={true}
       >
         <p>
           <strong>{markerList[index].name}</strong>
@@ -124,17 +88,13 @@ class LeafletMap extends React.Component {
     
     return (
       <div id="map-id">
-       <Map center={position} zoom={13} maxZoom={20} id="map">
-       {/* <OfflineTileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-        /> */}
+       <Map center={position} zoom={13} maxZoom={20} id="map" >
         <TileLayer
           attribution="&copy; <a href=&quot;https://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
           url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
         />
          <MarkerClusterGroup
-          showCoverageOnHover={false}
+          showCoverageOnHover={true}
           spiderfyDistanceMultiplier={2}
           iconCreateFunction={this.customIconCreateFunction}
         >
