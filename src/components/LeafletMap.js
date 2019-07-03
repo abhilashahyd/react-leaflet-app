@@ -37,6 +37,12 @@ const markerList = [
   }
 ];
 
+const customMarker = new L.icon({
+  iconUrl: require('../assets/hostpital-building.svg'),
+  iconSize: new L.Point(35, 46),
+  // iconAnchor:   [22, 94],
+});
+
 class LeafletMap extends React.Component {
   constructor(props) {
     super(props)
@@ -65,6 +71,8 @@ class LeafletMap extends React.Component {
       iconSize: L.point(40, 40, true)
     });
   }
+
+  
   renderPopup = (index) =>{
     return (
       <Popup
@@ -101,7 +109,7 @@ class LeafletMap extends React.Component {
           {markerList.map((marker, index) => {
             let post = [marker.lat, marker.lng];
             return (
-              <Marker key={index} position={post}>
+              <Marker key={index} position={post} icon={customMarker} >
                 {this.renderPopup(index)}
               </Marker>
             );
