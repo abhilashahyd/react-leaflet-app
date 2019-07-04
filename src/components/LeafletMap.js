@@ -5,7 +5,9 @@ import L from "leaflet";
 import  MarkerClusterGroup  from "react-leaflet-markercluster";
 import localforage from 'localforage';
 import 'leaflet-offline';
+import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 
+//Static data for list of markers
 const markerList = [
   {
     lat: 17.441013,
@@ -37,12 +39,28 @@ const markerList = [
   }
 ];
 
+//Defining the geo search control 
+const searchControl = new GeoSearchControl({ //geosearch object
+  provider: new OpenStreetMapProvider(),
+  // style: 'button',
+  showMarker: true,
+  autoComplete: true,   
+  showPopup: false,
+  autoClose: true,
+  retainZoomLevel: false,
+  animateZoom: true,
+  // keepResult: false,
+  searchLabel: 'search'
+});
+
+//Defining the custom marker with an hospital building icon
 const customMarker = new L.icon({
   iconUrl: require('../assets/hostpital-building.svg'),
   iconSize: new L.Point(35, 46),
   // iconAnchor:   [22, 94],
 });
 
+//The Map definition
 class LeafletMap extends React.Component {
   constructor(props) {
     super(props)
@@ -53,7 +71,9 @@ class LeafletMap extends React.Component {
       maxZoom: 30
     }
   }
+  
   componentDidMount() {
+  //Defining the offline layer for the map
     const map = L.map('map-id');
     const offlineLayer = L.tileLayer.offline('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', localforage, {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -62,8 +82,11 @@ class LeafletMap extends React.Component {
     maxZoom: 19,
     crossOrigin: true
 });
-    offlineLayer.addTo(map);
+    offlineLayer.addTo(map);//add the offline layer
+    map.addControl(searchControl);
   }
+
+  //Defining the custom icon for clusters
   customIconCreateFunction(cluster) {
     return L.divIcon({
       html: `<span>${cluster.getChildCount()}</span>`,
@@ -72,7 +95,7 @@ class LeafletMap extends React.Component {
     });
   }
 
-  
+  //Render pop up for markers
   renderPopup = (index) =>{
     return (
       <Popup
@@ -90,6 +113,7 @@ class LeafletMap extends React.Component {
     );
   }
 
+  //render the map
   render() {
     const position = [this.state.lat, this.state.lng];
     console.log(position);
@@ -98,6 +122,8 @@ class LeafletMap extends React.Component {
       <div id="map-id">
        <Map center={position} zoom={13} maxZoom={20} id="map" >
         <TileLayer
+        // url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+        //   attribution= 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
           attribution="&copy; <a href=&quot;https://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
           url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
         />

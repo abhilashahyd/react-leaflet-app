@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "leaflet": "^1.5.1",
+    "leaflet-geosearch": "^2.7.0",
     "leaflet-offline": "^1.1.0",
     "leaflet.markercluster": "^1.4.1",
     "localforage": "^1.7.3",
