@@ -1,5 +1,5 @@
-import React,{Component} from 'react';
-import { Map , Marker, Popup, TileLayer } from 'react-leaflet';
+import React from 'react';
+import { Map , Marker, Popup, TileLayer, ZoomControl  } from 'react-leaflet';
 import '../App.css';
 import L from "leaflet";
 import  MarkerClusterGroup  from "react-leaflet-markercluster";
@@ -83,6 +83,7 @@ class LeafletMap extends React.Component {
     crossOrigin: true
 });
     offlineLayer.addTo(map);//add the offline layer
+    map.zoomControl.remove();
     map.addControl(searchControl);
   }
 
@@ -121,6 +122,7 @@ class LeafletMap extends React.Component {
     return (
       <div id="map-id">
        <Map center={position} zoom={13} maxZoom={20} id="map" >
+       <ZoomControl  position="topright" />
         <TileLayer
         // url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
         //   attribution= 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
