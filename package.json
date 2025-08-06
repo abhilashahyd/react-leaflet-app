@@ -13,7 +13,7 @@
     "react-dom": "^16.8.6",
     "react-leaflet": "^2.4.0",
     "react-leaflet-markercluster": "^2.0.0-rc3",
-    "react-scripts": "3.0.1",
+    "react-scripts": "5.0.1",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.87.2"
   },
